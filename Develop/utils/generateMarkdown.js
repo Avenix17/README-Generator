@@ -15,32 +15,127 @@ const licenses = {
   'No license': '',
 };
 
-
-
-
-// TODO: Create a function that returns a license badge based on which license is passed in
-// If there is no license, return an empty string
+// Function that returns a license badge and link based on which license is passed in
 function renderLicenseBadge(license) {
   return licenses[license];
 }
 
-// TODO: Create a function that returns the license link
-// If there is no license, return an empty string
-function renderLicenseLink(license) {
+// Function to generate markdown for README
+function generateMarkdown(responses) {
+  let tableContents = `## Table of Contents`;
 
-}
+  if (responses.installation !== '') { tableContents += `
+  - [Installation](#installation)` };
+  if (responses.usage !== '') { tableContents += `
+  - [Usage](#usage)` };
+  if (responses.contribution !== '') { tableContents += `
+  - [Contribution](#contribution)` };
+  if (responses.tests !== '') { tableContents += `
+  - [Tests](#tests)` };
+  if (renderLicenseBadge !== '') {tableContents += `
+  - [License](#license)`};
+  if (responses.username && responses.email !== '') {tableContents += `
+  - [Questions](#questions)`};
 
-// TODO: Create a function that returns the license section of README
-// If there is no license, return an empty string
-function renderLicenseSection(license) {
+  // Generate markdown for README
+  let createdMarkdown = 
+  `# ${responses.title}
+  ---
+  ## Description
 
-}
+  ${responses.description}
 
-// TODO: Create a function to generate markdown for README
-function generateMarkdown(data) {
-  return `# ${data.title}
+  `
+  // Adds Table of Contents to markdown
+  createdMarkdown += tableContents;
 
-`;
+  // Installation section
+  if (responses.installation !== '') {
+  createdMarkdown +=
+  `
+
+  ## Installation
+
+  ${responses.installation}
+  `
+  };
+
+
+  // Usage section
+  if (responses.usage !== '') {
+
+  createdMarkdown +=
+  `
+
+  ## Usage 
+
+  ${responses.usage}`
+  };
+
+
+  // Contributing section
+  if (responses.contribution !== '') {
+
+  createdMarkdown +=
+  `
+
+  ## Contribution
+
+  ${responses.contribution}`
+  };
+
+
+  // Tests section
+  if (responses.tests !== '') {
+
+  createdMarkdown +=
+  `
+
+  ## Tests
+
+  ${responses.tests}`
+  };
+
+
+  // License section
+  if (renderLicenseBadge(responses.license) !== '') {
+  createdMarkdown +=
+  `
+
+  ## License
+
+  ${renderLicenseBadge(responses.license)}
+  `};
+
+
+  // Questions section
+  if (responses.username || responses.email !== '') {
+  createdMarkdown +=
+  `
+
+  ---
+
+  ## Questions
+
+  For any questions, please contact me with the information below:`
+  };
+
+  //Github and email
+  if (responses.username !== '') {
+  createdMarkdown += `
+
+  GitHub: [${responses.username}](${`https://github.com/` + responses.username })`
+  };
+
+  if (responses.email !== '') {
+  createdMarkdown += `
+
+  Email: ${responses.email}`
+  };
+
+
+  // Return finished markdown
+  return createdMarkdown;
 }
 
 module.exports = {
